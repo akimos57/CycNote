@@ -24,6 +24,7 @@ import ru.cyclone.cycnote.presentation.ui.theme.CycNoteTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.Placeholder
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -47,7 +48,7 @@ fun AddScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .padding(top = 52.dp)
+                    .padding(top = 24.dp)
                     .fillMaxWidth()
                     .height(48.dp)
                     .padding(horizontal = 24.dp)
@@ -106,21 +107,33 @@ fun AddScreen(navController: NavController) {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
+                .fillMaxSize()
+                .padding(top = 24.dp)
+
+            ,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(70.dp)
+                    .background(Color(0xFFFFFFFF)),
                 value = title,
                 onValueChange = { title = it },
                 label = { Text(text = "Название") }
+
             )
             TextField(
-                value = description,
-                onValueChange = { description = it },
-                label = { Text(text = "Начните ввод") },
                 modifier = Modifier
                     .padding(top = 24.dp)
+                    .fillMaxSize()
+                    .background(Color(0xFFFFFFFF)),
+                value = description,
+                onValueChange = { description = it },
+                label = { Text(text = "Начните ввод") }
+
+
             )
         }
     }

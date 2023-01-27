@@ -43,8 +43,9 @@ fun DetailsScreen(navController: NavController, id: String?) {
     val viewModel = hiltViewModel<DetailsViewModel>()
     val note = viewModel.note.observeAsState().value
     id?.toLong()?.let { viewModel.getNoteById(id = it) }
-//    var title by rememberSaveable { mutableStateOf("") }
-//    var description by rememberSaveable { mutableStateOf("") }
+    var title by rememberSaveable { mutableStateOf("") }
+    var description by rememberSaveable { mutableStateOf("") }
+    var contentField by rememberSaveable { mutableStateOf(note?.content.toString()) }
 
     Scaffold(
         topBar = {
@@ -52,7 +53,7 @@ fun DetailsScreen(navController: NavController, id: String?) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .padding(top = 52.dp)
+                    .padding(top = 24.dp)
                     .fillMaxWidth()
                     .height(48.dp)
                     .padding(horizontal = 24.dp)
@@ -106,11 +107,11 @@ fun DetailsScreen(navController: NavController, id: String?) {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 68.dp)
+                .fillMaxWidth()
+                .padding(top = 24.dp)
                 .padding(horizontal = 27.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start
         ) {
             Text(
                 text = note?.title ?: "",
@@ -118,10 +119,47 @@ fun DetailsScreen(navController: NavController, id: String?) {
                 style = TextStyle(color = Color(0xFF303030), fontWeight = FontWeight.Light)
             )
             Text(
+                modifier = Modifier
+                    .padding(top = 24.dp),
                 text = note?.content ?: "",
                 fontSize = 25.sp,
                 style = TextStyle(color = Color(0xFF303030), fontWeight = FontWeight.Light)
-            )
+           )
+//            Column() {
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(top = 24.dp)
+//                        .background(Color(0xFF0B4E85))
+//                    ,
+//                    verticalArrangement = Arrangement.Top,
+//                    horizontalAlignment = Alignment.CenterHorizontally
+//                ) {
+//                    TextField(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(70.dp)
+//                            .background(Color(0xFFFFFFFF)),
+//                        value = note?.title ?: "",
+//                        onValueChange = { title = it }
+//
+//                    )
+//
+//                        TextField(
+//                            modifier = Modifier
+//                                .padding(top = 24.dp)
+//                                .fillMaxWidth()
+//                                .background(Color(0xFFFFFFFF)),
+//                            value = contentField,
+//                            onValueChange = { contentField = it },
+//
+//
+//                            )
+//
+//                }
+//        }
+
+
         }
     }
 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -45,10 +46,15 @@ fun MainScreen(navController: NavHostController) {
 
 
             ) {
-                Icon(imageVector = Icons.Filled.Edit, tint = Color.White, contentDescription = "add")
+                Icon(
+                    imageVector = Icons.Filled.Edit,
+                    tint = Color.White,
+                    contentDescription = "add"
+                )
             }
         }
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -58,10 +64,10 @@ fun MainScreen(navController: NavHostController) {
                 text = "Заметки",
                 fontSize = 42.sp,
                 modifier = Modifier
-                    .padding(top = 30.dp, start =24.dp, bottom = 12.dp)
+                    .padding(top = 30.dp, start = 24.dp, bottom = 12.dp)
             )
 
-            notes.forEach { note ->  
+            notes.forEach { note ->
                 NoteItem(
                     title = note.title,
                     subtitle = note.content,
@@ -79,6 +85,7 @@ fun MainScreen(navController: NavHostController) {
         }
     }
 }
+
 
 
 
