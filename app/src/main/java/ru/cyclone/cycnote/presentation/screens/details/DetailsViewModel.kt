@@ -17,7 +17,6 @@ class DetailsViewModel @Inject constructor(
     private val getNoteById: GetNoteById,
     private val deleteNoteUseCase: DeleteNoteUseCase
 ): ViewModel() {
-
     private val _note = MutableLiveData<Note>()
     val note: LiveData<Note>
         get() = _note
@@ -39,7 +38,4 @@ class DetailsViewModel @Inject constructor(
 
         }
     }
-
-
-
 }

@@ -5,12 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -30,7 +32,6 @@ import java.util.*
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun DetailsScreen(navController: NavController, id: String?) {
-
     val viewModel = hiltViewModel<DetailsViewModel>()
     val note = viewModel.note.observeAsState().value
     id?.toLong()?.let { viewModel.getNoteById(id = it) }
@@ -38,6 +39,20 @@ fun DetailsScreen(navController: NavController, id: String?) {
 //    var description by rememberSaveable { mutableStateOf("") }
 
     Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { navController.navigate(
+                    Screens.AddScreen.rout + "/${note?.id}"
+                )},
+                modifier = Modifier
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Edit,
+                    tint = Color.White,
+                    contentDescription = "add"
+                )
+            }
+        },
         topBar = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

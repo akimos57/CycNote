@@ -1,4 +1,4 @@
-package ru.cyclone.cycnote.presentation.screens.add
+package ru.cyclone.cycnote.presentation.screens.edit
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -13,6 +13,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,26 +24,31 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import ru.cyclone.cycnote.domain.model.Note
 import ru.cyclone.cycnote.presentation.navigation.Screens
-import ru.cyclone.cycnote.presentation.ui.theme.CycNoteTheme
 import ru.cyclone.cycnote.presentation.ui.theme.noteItem
 import java.util.*
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun AddScreen(navController: NavController) {
-
-    val viewModel = hiltViewModel<AddViewModel>()
+fun AddScreen(
+    navController: NavController,
+    id: String?
+) {
+    val viewModel = hiltViewModel<EditViewModel>()
     var title by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
+
+    val note = viewModel.note.observeAsState().value
+    id?.toLong()?.let { viewModel.getNoteById(id = it) }
+
+    title = note?.title?:""
+    description = note?.content?:""
 
     val focusManager = LocalFocusManager.current
 
@@ -100,14 +106,27 @@ fun AddScreen(navController: NavController) {
                             .align(Alignment.Center)
                             .clickable {
                                 val color: Int = noteItem.toArgb()
-                                viewModel.addNote(
-                                    Note(
-                                        title = title,
-                                        content = description,
-                                        backgroundColor = color
-                                    )
-                                ) {
-                                    navController.navigate(Screens.MainScreen.rout)
+                                if(id != null) {
+                                    viewModel.addNote(
+                                        Note(
+                                            id = id.toLong(),
+                                            title = title,
+                                            content = description,
+                                            backgroundColor = color
+                                        )
+                                    ) {
+                                        navController.navigate(Screens.MainScreen.rout)
+                                    }
+                                } else {
+                                    viewModel.addNote(
+                                        Note(
+                                            title = title,
+                                            content = description,
+                                            backgroundColor = color
+                                        )
+                                    ) {
+                                        navController.navigate(Screens.MainScreen.rout)
+                                    }
                                 }
                             }
                     )
@@ -145,7 +164,7 @@ fun AddScreen(navController: NavController) {
             OutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
-                label = { Text(text = "Начните ввод") },
+                label = { Text(text = "Текст") },
                 modifier = Modifier
                     .padding(top = 24.dp),
                 keyboardOptions = KeyboardOptions(
@@ -155,12 +174,6 @@ fun AddScreen(navController: NavController) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewAddScreen() {
-    CycNoteTheme{AddScreen(rememberNavController())}
 }
 
 

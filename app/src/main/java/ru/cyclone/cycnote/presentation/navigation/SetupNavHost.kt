@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import ru.cyclone.cycnote.presentation.screens.add.AddScreen
+import ru.cyclone.cycnote.presentation.screens.edit.AddScreen
 import ru.cyclone.cycnote.presentation.screens.details.DetailsScreen
 import ru.cyclone.cycnote.presentation.screens.main.MainScreen
 
@@ -28,8 +28,11 @@ fun SetupNavHost(navController: NavHostController) {
         composable(route = Screens.DetailsScreen.rout + "/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) {
             DetailsScreen(navController = navController, it.arguments?.getString("id"))
         }
+        composable(route = Screens.AddScreen.rout + "/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) {
+            AddScreen(navController = navController, it.arguments?.getString("id"))
+        }
         composable(route = Screens.AddScreen.rout) {
-            AddScreen(navController = navController)
+            AddScreen(navController = navController, it.arguments?.getString("id"))
         }
     }
 }

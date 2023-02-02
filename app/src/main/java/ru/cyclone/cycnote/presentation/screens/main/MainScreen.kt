@@ -1,9 +1,7 @@
 package ru.cyclone.cycnote.presentation.screens.main
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +12,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -42,10 +39,8 @@ fun MainScreen(navController: NavHostController) {
             FloatingActionButton(
                 onClick = { navController.navigate(Screens.AddScreen.rout) },
                 modifier = Modifier
-
-
             ) {
-                Icon(imageVector = Icons.Filled.Edit, tint = Color.White, contentDescription = "add")
+                Icon(imageVector = Icons.Filled.Add, tint = Color.White, contentDescription = "add")
             }
         }
     ) {
@@ -61,7 +56,7 @@ fun MainScreen(navController: NavHostController) {
                     .padding(top = 30.dp, start =24.dp, bottom = 12.dp)
             )
 
-            notes.forEach { note ->  
+            notes.forEach { note ->
                 NoteItem(
                     title = note.title,
                     subtitle = note.content,
@@ -84,7 +79,7 @@ fun MainScreen(navController: NavHostController) {
 
 @Preview(showBackground = true)
 @Composable
-fun previewMainScreen() {
+fun PreviewMainScreen() {
    CycNoteTheme {
        MainScreen(rememberNavController())
    }
