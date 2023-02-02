@@ -25,7 +25,7 @@ fun SetupNavHost(navController: NavHostController) {
         composable(route = Screens.MainScreen.rout) {
             MainScreen(navController = navController)
         }
-        composable(route = Screens.DetailsScreen.rout + "/{id}", arguments = listOf(navArgument("id") {type = NavType.StringType} )) {
+        composable(route = Screens.DetailsScreen.rout + "/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) {
             DetailsScreen(navController = navController, it.arguments?.getString("id"))
         }
         composable(route = Screens.AddScreen.rout) {

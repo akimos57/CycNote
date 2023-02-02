@@ -81,6 +81,10 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    // Keyboard Listener
+    def LATEST_VERSION = "3.0.0-RC3"
+    implementation "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$LATEST_VERSION"
+
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"

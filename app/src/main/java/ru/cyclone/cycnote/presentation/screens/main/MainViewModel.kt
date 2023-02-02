@@ -13,7 +13,9 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val getAllNoteUseCase: GetAllNoteUseCase): ViewModel() {
+class MainViewModel @Inject constructor(
+    private val getAllNoteUseCase: GetAllNoteUseCase): ViewModel()
+{
     private val _notes = MutableLiveData<List<Note>>()
     val notes: LiveData<List<Note>>
         get() = _notes
@@ -22,7 +24,7 @@ class MainViewModel @Inject constructor(private val getAllNoteUseCase: GetAllNot
         getAllNotes()
     }
 
-    fun getAllNotes() {
+    private fun getAllNotes() {
         viewModelScope.launch {
             getAllNoteUseCase.invoke().let {
                 _notes.postValue(it)
