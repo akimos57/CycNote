@@ -2,7 +2,6 @@ package ru.cyclone.cycnote.presentation.screens.edit
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -32,7 +31,6 @@ import androidx.navigation.NavController
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import ru.cyclone.cycnote.domain.model.Note
 import ru.cyclone.cycnote.presentation.navigation.Screens
-import ru.cyclone.cycnote.presentation.ui.theme.backgroundColor
 import ru.cyclone.cycnote.presentation.ui.theme.noteItem
 import java.util.*
 
@@ -69,7 +67,6 @@ fun AddScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .background(Color.White)
                     .padding(14.dp)
                     .fillMaxWidth()
                     .height(48.dp)
@@ -111,7 +108,6 @@ fun AddScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        tint = Color.Black,
                         contentDescription = "nav back",
                         modifier = Modifier
                             .align(Alignment.Center)
@@ -153,7 +149,6 @@ fun AddScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Check,
-                        tint = Color.Black,
                         contentDescription = "save note",
                         modifier = Modifier
                             .align(Alignment.Center)
@@ -169,7 +164,6 @@ fun AddScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onTap = { focusManager.clearFocus() }
@@ -180,22 +174,19 @@ fun AddScreen(
         ) {
             TextField(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White),
+                    .fillMaxWidth(),
                 value = title,
                 onValueChange = { title = it },
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White,
-                    cursorColor = Color.Black,
-                    disabledLabelColor = Color.White,
+                    cursorColor = MaterialTheme.colors.secondary,
+                    disabledLabelColor = MaterialTheme.colors.primary,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 textStyle = TextStyle(fontSize = 28.sp),
                 placeholder = { Text(
                     text = "Название",
-                    fontSize = 28.sp,
-                    color = Color(0xFFC0C0C0),
+                    fontSize = 28.sp
                     )},
                 singleLine = false,
                 keyboardOptions = KeyboardOptions(
@@ -212,17 +203,15 @@ fun AddScreen(
                 value = description,
                 onValueChange = { description = it },
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White,
-                    cursorColor = Color.Black,
-                    disabledLabelColor = Color.White,
+                    cursorColor = MaterialTheme.colors.secondary,
+                    disabledLabelColor = MaterialTheme.colors.primary,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 textStyle = TextStyle(fontSize = 22.sp),
                 placeholder = { Text(
                     text = "Начните ввод",
-                    fontSize = 22.sp,
-                    color = Color(0xFFC0C0C0)
+                    fontSize = 22.sp
                 )},
                 modifier = Modifier
                     .fillMaxSize()

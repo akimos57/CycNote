@@ -1,23 +1,24 @@
 package ru.cyclone.cycnote.presentation.ui.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
+@SuppressLint("PrivateResource")
 private val DarkColorPalette = darkColors(
     primary = floating,
     primaryVariant = floating,
-    secondary = floating,
-    background = backgroundColor
+    secondary = floating
 )
 
+@SuppressLint("PrivateResource")
 private val LightColorPalette = lightColors(
     primary = floating,
     primaryVariant = floating,
-    secondary = floating,
-    background = backgroundColor
+    secondary = floating
 
     /* Other default colors to override
     background = Color.White,

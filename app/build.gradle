@@ -49,7 +49,6 @@ android {
 }
 
 dependencies {
-
     def compose_version = "1.6.1"
     def room_version = "2.5.0"
     def hilt_version = "2.44"
