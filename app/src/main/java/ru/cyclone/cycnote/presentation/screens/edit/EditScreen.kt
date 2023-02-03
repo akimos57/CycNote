@@ -23,13 +23,16 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import ru.cyclone.cycnote.domain.model.Note
 import ru.cyclone.cycnote.presentation.navigation.Screens
+import ru.cyclone.cycnote.presentation.ui.theme.backgroundColor
 import ru.cyclone.cycnote.presentation.ui.theme.noteItem
 import java.util.*
 
@@ -66,7 +69,8 @@ fun AddScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .padding(4.dp)
+                    .background(Color.White)
+                    .padding(14.dp)
                     .fillMaxWidth()
                     .height(48.dp)
 
@@ -76,17 +80,43 @@ fun AddScreen(
                         .width(48.dp)
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
-                        .background(Color(0xFF42AAFF))
-                        .clickable { navController.popBackStack() }
+                        .clickable {
+                            val color: Int = noteItem.toArgb()
+                            if (id != null) {
+                                viewModel.addNote(
+                                    Note(
+                                        id = id.toLong(),
+                                        title = title,
+                                        content = description,
+                                        backgroundColor = color
+                                    )
+                                ) {
+                                    navController.navigate(Screens.MainScreen.rout)
+                                }
+                            } else {
+                                viewModel.addNote(
+                                    Note(
+                                        title = title,
+                                        content = description,
+                                        backgroundColor = color
+                                    )
+                                ) {
+                                    navController.navigate(Screens.MainScreen.rout)
+                                }
+                            }
+                        }
+//                        .clickable { navController.popBackStack() }
 
 
                 ) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        tint = Color.White,
+                        tint = Color.Black,
                         contentDescription = "nav back",
                         modifier = Modifier
                             .align(Alignment.Center)
+                            .height(30.dp)
+                            .width(30.dp)
                     )
                 }
                 Box(
@@ -94,41 +124,42 @@ fun AddScreen(
                         .width(48.dp)
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
-                        .background(Color(0xFF42AAFF))
-
+                        .clickable {
+                            val color: Int = noteItem.toArgb()
+                            if (id != null) {
+                                viewModel.addNote(
+                                    Note(
+                                        id = id.toLong(),
+                                        title = title,
+                                        content = description,
+                                        backgroundColor = color
+                                    )
+                                ) {
+                                    navController.navigate(Screens.MainScreen.rout)
+                                }
+                            } else {
+                                viewModel.addNote(
+                                    Note(
+                                        title = title,
+                                        content = description,
+                                        backgroundColor = color
+                                    )
+                                ) {
+                                    navController.navigate(Screens.MainScreen.rout)
+                                }
+                            }
+                        }
 
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Check,
-                        tint = Color.White,
+                        tint = Color.Black,
                         contentDescription = "save note",
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .clickable {
-                                val color: Int = noteItem.toArgb()
-                                if(id != null) {
-                                    viewModel.addNote(
-                                        Note(
-                                            id = id.toLong(),
-                                            title = title,
-                                            content = description,
-                                            backgroundColor = color
-                                        )
-                                    ) {
-                                        navController.navigate(Screens.MainScreen.rout)
-                                    }
-                                } else {
-                                    viewModel.addNote(
-                                        Note(
-                                            title = title,
-                                            content = description,
-                                            backgroundColor = color
-                                        )
-                                    ) {
-                                        navController.navigate(Screens.MainScreen.rout)
-                                    }
-                                }
-                            }
+                            .height(33.dp)
+                            .width(33.dp)
+
                     )
                 }
 
@@ -138,6 +169,7 @@ fun AddScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color.White)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onTap = { focusManager.clearFocus() }
@@ -147,10 +179,25 @@ fun AddScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White),
                 value = title,
                 onValueChange = { title = it },
-                label = { Text(text = "Название") },
-                singleLine = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.White,
+                    cursorColor = Color.Black,
+                    disabledLabelColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                textStyle = TextStyle(fontSize = 28.sp),
+                placeholder = { Text(
+                    text = "Название",
+                    fontSize = 28.sp,
+                    color = Color(0xFFC0C0C0),
+                    )},
+                singleLine = false,
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,
                     autoCorrect = true
@@ -161,12 +208,25 @@ fun AddScreen(
                     }
                 )
             )
-            OutlinedTextField(
+            TextField(
                 value = description,
                 onValueChange = { description = it },
-                label = { Text(text = "Текст") },
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.White,
+                    cursorColor = Color.Black,
+                    disabledLabelColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                textStyle = TextStyle(fontSize = 22.sp),
+                placeholder = { Text(
+                    text = "Начните ввод",
+                    fontSize = 22.sp,
+                    color = Color(0xFFC0C0C0)
+                )},
                 modifier = Modifier
-                    .padding(top = 24.dp),
+                    .fillMaxSize()
+                    .padding(top = 8.dp),
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,
                     autoCorrect = true

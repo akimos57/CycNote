@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(100.dp)
-                        .clip(RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(14.dp))
                         .background(backgroundColor)
                 ) {
                     Column(

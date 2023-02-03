@@ -1,6 +1,7 @@
 package ru.cyclone.cycnote.presentation.screens.main
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,10 +13,13 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,13 +44,17 @@ fun MainScreen(navController: NavHostController) {
                 onClick = { navController.navigate(Screens.AddScreen.rout) },
                 modifier = Modifier
             ) {
-                Icon(imageVector = Icons.Filled.Add, tint = Color.White, contentDescription = "add")
+                Icon(
+                    imageVector = Icons.Filled.Edit,
+                    tint = Color.White,
+                    contentDescription = "add")
             }
         }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color(0xFFFCFCFC))
 
         ) {
             Text(
@@ -60,14 +68,17 @@ fun MainScreen(navController: NavHostController) {
                 NoteItem(
                     title = note.title,
                     subtitle = note.content,
-                    backgroundColor = Color(note.backgroundColor),
+                    backgroundColor = Color.White,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 12.dp)
                         .padding(horizontal = 24.dp)
                         .clickable {
-                            navController.navigate(Screens.DetailsScreen.rout + "/${note.id}")
+                            navController.navigate(Screens.AddScreen.rout + "/${note?.id}")
                         }
+//                        .clickable {
+//                            navController.navigate(Screens.DetailsScreen.rout + "/${note.id}")
+//                        }
                 )
             }
 

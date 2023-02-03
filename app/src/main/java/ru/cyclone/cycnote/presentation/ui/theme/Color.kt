@@ -10,7 +10,7 @@ val Teal200 = Color(0xFF03DAC5)
 val floating = Color(0xFF42AAFF)
 
 
-val noteItem = Color(0xFFF8F7F7)
+val noteItem = Color(0xFFFCFCFC)
 
 
 
