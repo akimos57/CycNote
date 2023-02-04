@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.cyclone.cycnote.data.local.AppDatabase
 import ru.cyclone.cycnote.data.local.dao.NoteRepositoryImpl
+import ru.cyclone.cycnote.data.local.dao.ScrollRepositoryImpl
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -26,6 +27,11 @@ class DatabaseModule {
     @Provides
     fun provideNoteDao(appDatabase: AppDatabase): NoteRepositoryImpl {
         return appDatabase.noteDao()
+    }
+
+    @Provides
+    fun provideScrollDao(appDatabase: AppDatabase): ScrollRepositoryImpl {
+        return appDatabase.scrollDao()
     }
 
 }
