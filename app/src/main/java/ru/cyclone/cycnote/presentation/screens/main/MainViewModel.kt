@@ -55,4 +55,9 @@ class MainViewModel @Inject constructor(
             getScrollStateUseCase.invoke()
         }
     }
+
+    override fun onCleared() {
+        storeScrollState(0)
+        super.onCleared()
+    }
 }
