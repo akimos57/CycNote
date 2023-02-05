@@ -35,8 +35,6 @@ fun DetailsScreen(navController: NavController, id: String?) {
     val viewModel = hiltViewModel<DetailsViewModel>()
     val note = viewModel.note.observeAsState().value
     id?.toLong()?.let { viewModel.getNoteById(id = it) }
-//    var title by rememberSaveable { mutableStateOf("") }
-//    var description by rememberSaveable { mutableStateOf("") }
 
     Scaffold(
         floatingActionButton = {
