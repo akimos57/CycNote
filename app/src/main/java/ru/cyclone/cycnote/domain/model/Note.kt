@@ -9,5 +9,6 @@ data class Note(
     val id: Long = 0,
     val title: String,
     val content: String,
-    val backgroundColor: Int
+    val backgroundColor: Int,
+    val isFavourite : Boolean = false
 )

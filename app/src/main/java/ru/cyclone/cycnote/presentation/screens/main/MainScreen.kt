@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +24,7 @@ import ru.cyclone.cycnote.presentation.ui.components.NoteItem
 import ru.cyclone.cycnote.presentation.ui.theme.CycNoteTheme
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navController: NavHostController) {
@@ -57,10 +56,25 @@ fun MainScreen(navController: NavHostController) {
                     .padding(top = 30.dp, start =24.dp, bottom = 12.dp)
             )
             notes.forEach { note ->
+                val showDialog = remember { mutableStateOf(false) }
+                if (showDialog.value) {
+                    Alert(
+                        showDialog = showDialog.value,
+                        onDismiss = { showDialog.value = false },
+                        isFavourite = note.isFavourite,
+                        removeRequested = {
+                            viewModel.deleteNote(
+                                note = note
+                            )
+                        },
+                        favouriteStateChanged = { viewModel.changeFavouriteState(note = note) }
+                    )
+                }
                 NoteItem(
                     title = note.title,
                     subtitle = note.content,
                     backgroundColor = MaterialTheme.colors.primary,
+                    isFavourite = note.isFavourite,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 12.dp)
@@ -68,9 +82,49 @@ fun MainScreen(navController: NavHostController) {
                         .clickable {
                             navController.navigate(Screens.AddScreen.rout + "/${note.id}")
                         }
+                        .combinedClickable(
+                            onClick = { navController.navigate(Screens.AddScreen.rout + "/${note.id}") },
+                            onLongClick = {
+                                showDialog.value = true
+                            }
+                        )
                 )
             }
         }
+    }
+}
+
+@Composable
+fun Alert(showDialog: Boolean,
+          removeRequested: () -> Unit = {},
+          favouriteStateChanged: () -> Unit = {},
+          onDismiss: () -> Unit = {},
+          isFavourite : Boolean
+) {
+    if (showDialog) {
+        AlertDialog(
+            text = {
+                   Text("Item dialog")
+            },
+            onDismissRequest = onDismiss,
+            buttons = {
+                TextButton( onClick = {
+                    onDismiss()
+                    removeRequested()
+                }) {
+                    Text("Удалить заметку?")
+                }
+                TextButton( onClick = {
+                    onDismiss()
+                    favouriteStateChanged()
+                }) {
+                    when (isFavourite) {
+                        true -> Text("Убрать из избранного")
+                        else -> Text("Добавить в избранное")
+                    }
+                }
+            }
+        )
     }
 }
 
@@ -95,7 +149,7 @@ fun staticScrollState(vm : MainViewModel): ScrollState {
 @Preview(showBackground = true)
 @Composable
 fun PreviewMainScreen() {
-   CycNoteTheme {
-       MainScreen(rememberNavController())
-   }
+    CycNoteTheme {
+        MainScreen(rememberNavController())
+    }
 }

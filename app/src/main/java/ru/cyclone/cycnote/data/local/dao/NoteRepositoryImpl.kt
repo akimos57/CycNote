@@ -8,7 +8,8 @@ interface NoteRepositoryImpl {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: Note)
 
-    @Query("SELECT * FROM note")
+    @Query("SELECT * FROM note " +
+            "ORDER BY isFavourite DESC")
     suspend fun getAllNotes(): List<Note>
 
     @Delete

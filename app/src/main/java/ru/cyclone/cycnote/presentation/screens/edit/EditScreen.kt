@@ -37,7 +37,7 @@ import java.util.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun AddScreen(
+fun EditScreen(
     navController: NavController,
     id: String?
 ) {
@@ -78,29 +78,7 @@ fun AddScreen(
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
                         .clickable {
-                            val color: Int = noteItem.toArgb()
-                            if (id != null) {
-                                viewModel.addNote(
-                                    Note(
-                                        id = id.toLong(),
-                                        title = title,
-                                        content = description,
-                                        backgroundColor = color
-                                    )
-                                ) {
-                                    navController.navigate(Screens.MainScreen.rout)
-                                }
-                            } else {
-                                viewModel.addNote(
-                                    Note(
-                                        title = title,
-                                        content = description,
-                                        backgroundColor = color
-                                    )
-                                ) {
-                                    navController.navigate(Screens.MainScreen.rout)
-                                }
-                            }
+                            navController.navigate(Screens.MainScreen.rout)
                         }
 //                        .clickable { navController.popBackStack() }
 

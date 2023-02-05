@@ -9,9 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.cyclone.cycnote.domain.model.Note
 import ru.cyclone.cycnote.domain.model.ScrollState
-import ru.cyclone.cycnote.domain.usecases.GetAllNoteUseCase
-import ru.cyclone.cycnote.domain.usecases.GetScrollStateUseCase
-import ru.cyclone.cycnote.domain.usecases.StoreScrollStateUseCase
+import ru.cyclone.cycnote.domain.usecases.*
 import javax.inject.Inject
 
 
@@ -19,7 +17,9 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getAllNoteUseCase : GetAllNoteUseCase,
     private val storeScrollStateUseCase : StoreScrollStateUseCase,
-    private val getScrollStateUseCase : GetScrollStateUseCase
+    private val getScrollStateUseCase : GetScrollStateUseCase,
+    private val deleteNoteUseCase: DeleteNoteUseCase,
+    private val addNoteUseCase: AddNoteUseCase
     ): ViewModel() {
     private val _notes = MutableLiveData<List<Note>>()
     val notes: LiveData<List<Note>>
@@ -32,14 +32,47 @@ class MainViewModel @Inject constructor(
         }
 
     init {
-        getAllNotes()
+        updateAllNotes()
         getScrollState()
     }
 
-    private fun getAllNotes() {
+    private fun updateAllNotes() {
         viewModelScope.launch {
             getAllNoteUseCase.invoke().let {
                 _notes.postValue(it)
+            }
+        }
+    }
+
+    fun deleteNote(
+        onSuccess: () -> Unit = {},
+        note: Note
+    ) {
+        viewModelScope.launch {
+            notes.value?.let {
+                deleteNoteUseCase.invoke(note = note)
+                updateAllNotes()
+                onSuccess()
+            }
+        }
+    }
+
+    fun changeFavouriteState(
+        onSuccess: () -> Unit = {},
+        note : Note) {
+        viewModelScope.launch {
+            notes.value?.let {
+                val n = Note(
+                    id = note.id,
+                    title = note.title.ifEmpty { "" },
+                    content = note.content.ifEmpty { "" },
+                    backgroundColor = note.backgroundColor,
+                    isFavourite = !note.isFavourite
+                )
+                deleteNoteUseCase.invoke(note = note)
+                addNoteUseCase.invoke(note = n)
+                updateAllNotes()
+                onSuccess()
             }
         }
     }
