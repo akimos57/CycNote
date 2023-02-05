@@ -4,7 +4,7 @@ import androidx.room.*
 import ru.cyclone.cycnote.domain.model.ScrollState
 
 @Dao
-interface ScrollRepositoryImpl {
+interface PreferencesRepositoryImpl {
     @Query("SELECT * FROM ScrollState")
     suspend fun getScrollState() : List<ScrollState>
 

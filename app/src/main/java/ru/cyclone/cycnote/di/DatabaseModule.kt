@@ -9,7 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.cyclone.cycnote.data.local.AppDatabase
 import ru.cyclone.cycnote.data.local.dao.NoteRepositoryImpl
-import ru.cyclone.cycnote.data.local.dao.ScrollRepositoryImpl
+import ru.cyclone.cycnote.data.local.dao.PreferencesRepositoryImpl
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -30,7 +30,7 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideScrollDao(appDatabase: AppDatabase): ScrollRepositoryImpl {
-        return appDatabase.scrollDao()
+    fun providePreferencesDao(appDatabase: AppDatabase): PreferencesRepositoryImpl {
+        return appDatabase.preferencesDao()
     }
 }
