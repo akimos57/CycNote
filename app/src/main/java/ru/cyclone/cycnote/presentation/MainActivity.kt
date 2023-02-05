@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.cyclone.cycnote.presentation.navigation.SetupNavHost
 import ru.cyclone.cycnote.presentation.ui.theme.CycNoteTheme
-import ru.cyclone.cycnote.presentation.ui.theme.backgroundColor
+import ru.cyclone.cycnote.presentation.ui.theme.backgroundLightColor
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             CycNoteTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = backgroundColor
+                    color = backgroundLightColor
                 ) {
                     SetupNavHost(navController = navController)
                 }
