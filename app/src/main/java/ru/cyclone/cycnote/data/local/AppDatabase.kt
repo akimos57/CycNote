@@ -3,7 +3,7 @@ package ru.cyclone.cycnote.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import ru.cyclone.cycnote.data.local.dao.NoteRepositoryImpl
-import ru.cyclone.cycnote.data.local.dao.PreferencesRepositoryImpl
+import ru.cyclone.cycnote.data.local.dao.ScrollRepositoryImpl
 import ru.cyclone.cycnote.domain.model.Note
 import ru.cyclone.cycnote.domain.model.ScrollState
 
@@ -14,5 +14,5 @@ import ru.cyclone.cycnote.domain.model.ScrollState
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun noteDao(): NoteRepositoryImpl
-    abstract fun preferencesDao() : PreferencesRepositoryImpl
+    abstract fun scrollDao() : ScrollRepositoryImpl
 }

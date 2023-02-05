@@ -12,7 +12,4 @@ val floating = Color(0xFF42AAFF)
 
 val noteItem = Color(0xFFFCFCFC)
 
-
-
-
-val backgroundColor = Color(0xFFE5E5E5)
+val backgroundLightColor = Color(0xFFE5E5E5)
