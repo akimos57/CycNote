@@ -1,6 +1,5 @@
 package ru.cyclone.cycnote.presentation.screens.edit
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -10,10 +9,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,10 +35,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import ru.cyclone.cycnote.domain.model.Note
 import ru.cyclone.cycnote.presentation.navigation.Screens
 import ru.cyclone.cycnote.presentation.ui.theme.noteItem
-import java.util.*
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun EditScreen(
     navController: NavController,
@@ -78,10 +79,8 @@ fun EditScreen(
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
                         .clickable {
-                            navController.navigate(Screens.MainScreen.rout)
+                            navController.popBackStack()
                         }
-//                        .clickable { navController.popBackStack() }
-
 
                 ) {
                     Icon(
@@ -138,10 +137,11 @@ fun EditScreen(
 
             }
         }
-    ) {
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onTap = { focusManager.clearFocus() }
@@ -197,6 +197,11 @@ fun EditScreen(
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,
                     autoCorrect = true
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus()
+                    }
                 )
             )
         }
