@@ -33,5 +33,4 @@ class DatabaseModule {
     fun providePreferencesDao(appDatabase: AppDatabase): PreferencesRepositoryImpl {
         return appDatabase.preferencesDao()
     }
-
 }
