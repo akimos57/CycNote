@@ -10,5 +10,5 @@ data class Note(
     val title: String,
     val content: String,
     val backgroundColor: Int,
-    val isFavourite : Boolean = false
+    var isFavourite : Boolean
 )

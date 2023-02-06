@@ -42,6 +42,7 @@ fun EditScreen(
     navController: NavController,
     id: String?
 ) {
+    navController.enableOnBackPressed(true)
     val viewModel = hiltViewModel<EditViewModel>()
     var title by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
@@ -51,9 +52,9 @@ fun EditScreen(
 
     title = note?.title?:""
     description = note?.content?:""
+    val isFavourite = note?.isFavourite?:false
 
     val focusManager = LocalFocusManager.current
-
     // Clear focus with keyboard back press listener
     KeyboardVisibilityEvent.setEventListener(
         LocalContext.current as Activity
@@ -104,8 +105,9 @@ fun EditScreen(
                                     Note(
                                         id = id.toLong(),
                                         title = title,
-                                        content = description,
-                                        backgroundColor = color
+                                        content = title,
+                                        backgroundColor = color,
+                                        isFavourite = isFavourite
                                     )
                                 ) {
                                     navController.navigate(Screens.MainScreen.rout)
@@ -115,8 +117,9 @@ fun EditScreen(
                                     Note(
                                         title = title,
                                         content = description,
-                                        backgroundColor = color
-                                    )
+                                        backgroundColor = color,
+                                        isFavourite = isFavourite
+                                    ),
                                 ) {
                                     navController.navigate(Screens.MainScreen.rout)
                                 }
@@ -131,7 +134,6 @@ fun EditScreen(
                             .align(Alignment.Center)
                             .height(33.dp)
                             .width(33.dp)
-
                     )
                 }
 

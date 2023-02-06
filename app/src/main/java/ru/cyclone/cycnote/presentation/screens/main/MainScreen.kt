@@ -1,6 +1,5 @@
 package ru.cyclone.cycnote.presentation.screens.main
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,17 +19,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.coroutineScope
 import ru.cyclone.cycnote.presentation.navigation.Screens
+import ru.cyclone.cycnote.presentation.ui.components.Alert
 import ru.cyclone.cycnote.presentation.ui.components.NoteItem
 import ru.cyclone.cycnote.presentation.ui.theme.CycNoteTheme
 
-
 @OptIn(ExperimentalFoundationApi::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<MainViewModel>()
     val notes = viewModel.notes.observeAsState(listOf()).value
     val verticalCustomScrollState = staticScrollState(viewModel)
+    navController.enableOnBackPressed(false)
 
     Scaffold(
         floatingActionButton = {
@@ -43,10 +42,11 @@ fun MainScreen(navController: NavHostController) {
                     contentDescription = "add")
             }
         }
-    ) {
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .verticalScroll(verticalCustomScrollState)
         ) {
             Text(
@@ -91,40 +91,6 @@ fun MainScreen(navController: NavHostController) {
                 )
             }
         }
-    }
-}
-
-@Composable
-fun Alert(showDialog: Boolean,
-          removeRequested: () -> Unit = {},
-          favouriteStateChanged: () -> Unit = {},
-          onDismiss: () -> Unit = {},
-          isFavourite : Boolean
-) {
-    if (showDialog) {
-        AlertDialog(
-            text = {
-                   Text("Item dialog")
-            },
-            onDismissRequest = onDismiss,
-            buttons = {
-                TextButton( onClick = {
-                    onDismiss()
-                    removeRequested()
-                }) {
-                    Text("Удалить заметку?")
-                }
-                TextButton( onClick = {
-                    onDismiss()
-                    favouriteStateChanged()
-                }) {
-                    when (isFavourite) {
-                        true -> Text("Убрать из избранного")
-                        else -> Text("Добавить в избранное")
-                    }
-                }
-            }
-        )
     }
 }
 

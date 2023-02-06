@@ -62,15 +62,8 @@ class MainViewModel @Inject constructor(
         note : Note) {
         viewModelScope.launch {
             notes.value?.let {
-                val n = Note(
-                    id = note.id,
-                    title = note.title.ifEmpty { "" },
-                    content = note.content.ifEmpty { "" },
-                    backgroundColor = note.backgroundColor,
-                    isFavourite = !note.isFavourite
-                )
-                deleteNoteUseCase.invoke(note = note)
-                addNoteUseCase.invoke(note = n)
+                note.isFavourite = !note.isFavourite
+                addNoteUseCase.invoke(note = note)
                 updateAllNotes()
                 onSuccess()
             }
