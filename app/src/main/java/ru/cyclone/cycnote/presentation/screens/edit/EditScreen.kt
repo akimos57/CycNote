@@ -1,6 +1,5 @@
 package ru.cyclone.cycnote.presentation.screens.edit
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,10 +10,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,15 +39,14 @@ import ru.cyclone.cycnote.presentation.navigation.Screens
 import ru.cyclone.cycnote.presentation.screens.main.Alert
 import ru.cyclone.cycnote.presentation.screens.main.MainViewModel
 import ru.cyclone.cycnote.presentation.ui.theme.noteItem
-import java.util.*
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun EditScreen(
     navController: NavController,
     id: String?
 ) {
+    navController.enableOnBackPressed(true)
     val viewModel = hiltViewModel<EditViewModel>()
     var title by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
@@ -54,12 +56,12 @@ fun EditScreen(
 
     val note = viewModel.note.observeAsState().value
     id?.toLong()?.let { viewModel.getNoteById(id = it) }
-
-    title = note?.title ?: ""
-    description = note?.content ?: ""
+    
+    title = note?.title?:""
+    description = note?.content?:""
+    val isFavourite = note?.isFavourite?:false
 
     val focusManager = LocalFocusManager.current
-
     // Clear focus with keyboard back press listener
     KeyboardVisibilityEvent.setEventListener(
         LocalContext.current as Activity
@@ -78,8 +80,6 @@ fun EditScreen(
                     .padding(14.dp)
                     .fillMaxWidth()
                     .height(48.dp)
-
-
             ) {
                 Box(
                     modifier = Modifier
@@ -87,33 +87,8 @@ fun EditScreen(
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
                         .clickable {
-                            val color: Int = noteItem.toArgb()
-                            if (id != null) {
-                                viewModel.addNote(
-                                    Note(
-                                        id = id.toLong(),
-                                        title = title,
-                                        content = description,
-                                        backgroundColor = color
-                                    )
-                                ) {
-                                    navController.navigate(Screens.MainScreen.rout)
-                                }
-                            } else {
-                                viewModel.addNote(
-                                    Note(
-                                        title = title,
-                                        content = description,
-                                        backgroundColor = color
-                                    )
-                                ) {
-                                    navController.navigate(Screens.MainScreen.rout)
-                                }
-                            }
-//                            navController.navigate(Screens.MainScreen.rout)
+                            navController.popBackStack()
                         }
-//                        .clickable { navController.popBackStack() }
-
 
                 ) {
                     Icon(
@@ -142,32 +117,14 @@ fun EditScreen(
                             .align(Alignment.Center)
                             .height(33.dp)
                             .width(33.dp)
-
                     )
                 }
-//                notes.forEach {note ->
-//                val openDialog = remember { mutableStateOf(true) }
-//                if(openDialog.value) {
-//                    Alert(
-//                        showDialog = openDialog.value,
-//                        removeRequested = {
-//                            viewModel2.deleteNote(note = note) },
-//                        favouriteStateChanged = { viewModel2.changeFavouriteState(note = note) },
-//                        onDismiss = { openDialog.value = false },
-//                        isFavourite = note.isFavourite
-//                    )
-//                    }}
-
-
+                
                 Box(
                     modifier = Modifier
                         .width(48.dp)
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
-                        .clickable {
-//                            openDialog.value = true
-                        }
-
                 ) {
                     Icon(
                         imageVector = Icons.Filled.MoreVert,
@@ -182,10 +139,11 @@ fun EditScreen(
 
             }
         }
-    ) {
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onTap = { focusManager.clearFocus() }
@@ -247,6 +205,11 @@ fun EditScreen(
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,
                     autoCorrect = true
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus()
+                    }
                 )
             )
         }
