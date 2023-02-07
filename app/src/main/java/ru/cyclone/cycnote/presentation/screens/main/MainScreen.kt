@@ -71,7 +71,7 @@ fun MainScreen(navController: NavHostController) {
                 NoteItem(
                     title = note.title,
                     subtitle = note.content,
-                    backgroundColor = MaterialTheme.colors.primary,
+                    backgroundColor = MaterialTheme.colors.primaryVariant,
                     isFavourite = note.isFavourite,
                     modifier = Modifier
                         .fillMaxWidth()

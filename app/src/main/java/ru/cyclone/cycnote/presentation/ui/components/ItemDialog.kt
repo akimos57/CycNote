@@ -39,7 +39,7 @@ fun Alert(showDialog: Boolean,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(
-                        "Удалить заметку?",
+                        "Удалить заметку",
                         color = MaterialTheme.colors.surface,
                         fontSize = 20.sp,
                         modifier = Modifier

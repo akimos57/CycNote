@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 
 @SuppressLint("PrivateResource")
 private val DarkColorPalette = darkColors(
-    primary = cardDark,
-    primaryVariant = floating,
+    primary = floating,
+    primaryVariant = cardDark,
     secondary = floating,
     background = backgroundDarkColor,
     surface = dialogTextDark
@@ -18,8 +18,8 @@ private val DarkColorPalette = darkColors(
 
 @SuppressLint("PrivateResource")
 private val LightColorPalette = lightColors(
-    primary = cardLight,
-    primaryVariant = floating,
+    primary = floating,
+    primaryVariant = cardLight,
     secondary = floating,
     background = backgroundLightColor,
     surface = dialogTextLight

@@ -13,12 +13,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +34,8 @@ import androidx.navigation.NavController
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import ru.cyclone.cycnote.domain.model.Note
 import ru.cyclone.cycnote.presentation.navigation.Screens
+import ru.cyclone.cycnote.presentation.screens.main.MainViewModel
+import ru.cyclone.cycnote.presentation.ui.components.Alert
 import ru.cyclone.cycnote.presentation.ui.theme.noteItem
 
 
@@ -49,6 +48,9 @@ fun EditScreen(
     val viewModel = hiltViewModel<EditViewModel>()
     var title by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
+
+    val viewModel2 = hiltViewModel<MainViewModel>()
+    val notes = viewModel2.notes.observeAsState(listOf()).value
 
     val note = viewModel.note.observeAsState().value
     id?.toLong()?.let { viewModel.getNoteById(id = it) }
@@ -71,7 +73,7 @@ fun EditScreen(
         topBar = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.End,
                 modifier = Modifier
                     .padding(14.dp)
                     .fillMaxWidth()
@@ -79,25 +81,7 @@ fun EditScreen(
             ) {
                 Box(
                     modifier = Modifier
-                        .width(48.dp)
-                        .height(48.dp)
-                        .clip(RoundedCornerShape(15.dp))
-                        .clickable {
-                            navController.popBackStack()
-                        }
-
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "nav back",
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .height(30.dp)
-                            .width(30.dp)
-                    )
-                }
-                Box(
-                    modifier = Modifier
+                        .padding(end = 220.dp)
                         .width(48.dp)
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
@@ -127,6 +111,39 @@ fun EditScreen(
                                     navController.navigate(Screens.MainScreen.rout)
                                 }
                             }
+
+                        }
+
+
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "nav back",
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .height(30.dp)
+                            .width(30.dp)
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .width(48.dp)
+                        .height(48.dp)
+                        .clip(RoundedCornerShape(15.dp))
+                        .clickable {
+                            val color: Int = noteItem.toArgb()
+                            if (id != null) {
+                                viewModel.addNote(
+                                    Note(
+                                        id = id.toLong(),
+                                        title = title,
+                                        content = description,
+                                        backgroundColor = color,
+                                        isFavourite = isFavourite
+                                    )
+                                ) {
+                                }
+                            }
                             focusManager.clearFocus(false)
                         }
 
@@ -140,26 +157,36 @@ fun EditScreen(
                             .width(33.dp)
                     )
                 }
-                
-                Box(
-                    modifier = Modifier
-                        .width(48.dp)
-                        .height(48.dp)
-                        .clip(RoundedCornerShape(15.dp))
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.MoreVert,
-                        contentDescription = "save note",
+
+
+
+                    Box(
                         modifier = Modifier
-                            .align(Alignment.Center)
-                            .height(33.dp)
-                            .width(33.dp)
+                            .width(48.dp)
+                            .height(48.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .clickable {
+                            }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = "menu",
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .height(33.dp)
+                                .width(33.dp)
 
                         )
-                    }
 
-            }
+                    }
+                }
         }
+
+
+
+
+
+
     ) { paddingValues ->
         Column(
             modifier = Modifier
