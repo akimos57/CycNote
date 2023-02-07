@@ -9,16 +9,20 @@ import androidx.compose.runtime.Composable
 
 @SuppressLint("PrivateResource")
 private val DarkColorPalette = darkColors(
-    primary = floating,
+    primary = cardDark,
     primaryVariant = floating,
-    secondary = floating
+    secondary = floating,
+    background = backgroundDarkColor,
+    surface = dialogTextDark
 )
 
 @SuppressLint("PrivateResource")
 private val LightColorPalette = lightColors(
-    primary = floating,
+    primary = cardLight,
     primaryVariant = floating,
-    secondary = floating
+    secondary = floating,
+    background = backgroundLightColor,
+    surface = dialogTextLight
 
     /* Other default colors to override
     background = Color.White,

@@ -8,6 +8,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,14 +43,14 @@ import androidx.compose.ui.unit.sp
                 ) {
                     Text(
                         text = title,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF303030)
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     if (isFavourite) {
                         Icon(
-                            imageVector = Icons.Filled.Check,
+                            imageVector = Icons.Filled.Star,
+                            tint = Color(0xFFFFD700),
                             contentDescription = "favourite")
                     }
                 }
@@ -61,8 +62,7 @@ import androidx.compose.ui.unit.sp
                 ) {
                     Text(
                         text = subtitle,
-                        fontSize = 20.sp,
-                        color = Color(0xFF303030),
+                        fontSize = 18.sp,
                         modifier = Modifier
                             .padding(bottom = 23.dp)
                     )

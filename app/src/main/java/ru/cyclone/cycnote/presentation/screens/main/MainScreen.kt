@@ -1,17 +1,15 @@
 package ru.cyclone.cycnote.presentation.screens.main
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,7 +23,6 @@ import ru.cyclone.cycnote.presentation.ui.theme.CycNoteTheme
 
 
 @OptIn(ExperimentalFoundationApi::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<MainViewModel>()
@@ -40,20 +37,22 @@ fun MainScreen(navController: NavHostController) {
             ) {
                 Icon(
                     imageVector = Icons.Filled.Edit,
-                    contentDescription = "add")
+                    contentDescription = "add"
+                )
             }
         }
-    ) {
+    ) { paddingParams ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingParams)
                 .verticalScroll(verticalCustomScrollState)
         ) {
             Text(
                 text = "Заметки",
                 fontSize = 42.sp,
                 modifier = Modifier
-                    .padding(top = 30.dp, start =24.dp, bottom = 12.dp)
+                    .padding(top = 30.dp, start = 24.dp, bottom = 12.dp)
             )
             notes.forEach { note ->
                 val showDialog = remember { mutableStateOf(false) }
@@ -77,8 +76,8 @@ fun MainScreen(navController: NavHostController) {
                     isFavourite = note.isFavourite,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 12.dp)
-                        .padding(horizontal = 24.dp)
+                        .padding(vertical = 6.dp)
+                        .padding(horizontal = 16.dp)
                         .clickable {
                             navController.navigate(Screens.AddScreen.rout + "/${note.id}")
                         }
@@ -103,24 +102,53 @@ fun Alert(showDialog: Boolean,
 ) {
     if (showDialog) {
         AlertDialog(
-            text = {
-                   Text("Item dialog")
-            },
+            modifier = Modifier
+                .height(150.dp)
+                .width(300.dp)
+                .clip(RoundedCornerShape(14.dp)),
+
+
             onDismissRequest = onDismiss,
+            backgroundColor = MaterialTheme.colors.secondary,
             buttons = {
-                TextButton( onClick = {
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+
                     onDismiss()
                     removeRequested()
                 }) {
-                    Text("Удалить заметку?")
+                    Text(
+                        "Удалить заметку",
+                        color = MaterialTheme.colors.surface,
+                        fontSize = 20.sp,
+                        modifier =  Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, top = 20.dp)
+                    )
                 }
-                TextButton( onClick = {
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+
                     onDismiss()
                     favouriteStateChanged()
                 }) {
                     when (isFavourite) {
-                        true -> Text("Убрать из избранного")
-                        else -> Text("Добавить в избранное")
+                        true -> Text("Убрать из избранного",
+                            color = MaterialTheme.colors.surface,
+                            fontSize = 20.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, top = 20.dp)
+                            )
+                        else -> Text("Добавить в избранное",
+                            color = MaterialTheme.colors.surface,
+                            fontSize = 20.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, top = 20.dp)
+                        )
                     }
                 }
             }
