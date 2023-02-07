@@ -34,8 +34,7 @@ import androidx.navigation.NavController
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import ru.cyclone.cycnote.domain.model.Note
 import ru.cyclone.cycnote.presentation.navigation.Screens
-import ru.cyclone.cycnote.presentation.screens.main.MainViewModel
-import ru.cyclone.cycnote.presentation.ui.components.Alert
+import ru.cyclone.cycnote.presentation.ui.components.EditDialog
 import ru.cyclone.cycnote.presentation.ui.theme.noteItem
 
 
@@ -49,15 +48,13 @@ fun EditScreen(
     var title by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
 
-    val viewModel2 = hiltViewModel<MainViewModel>()
-    val notes = viewModel2.notes.observeAsState(listOf()).value
+    val showDialog = remember { mutableStateOf(false) }
 
     val note = viewModel.note.observeAsState().value
     id?.toLong()?.let { viewModel.getNoteById(id = it) }
     
     title = note?.title?:""
     description = note?.content?:""
-    val isFavourite = note?.isFavourite?:false
 
     val focusManager = LocalFocusManager.current
     // Clear focus with keyboard back press listener
@@ -73,48 +70,33 @@ fun EditScreen(
         topBar = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End,
                 modifier = Modifier
-                    .padding(14.dp)
                     .fillMaxWidth()
+                    .padding(14.dp)
                     .height(48.dp)
             ) {
                 Box(
                     modifier = Modifier
-                        .padding(end = 220.dp)
                         .width(48.dp)
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
                         .clickable {
                             val color: Int = noteItem.toArgb()
-                            if (id != null) {
+                            if (note != null) {
                                 viewModel.addNote(
                                     Note(
-                                        id = id.toLong(),
+                                        noteID = note.noteID,
                                         title = title,
                                         content = description,
                                         backgroundColor = color,
-                                        isFavourite = isFavourite
+                                        isFavourite = note.isFavourite
                                     )
-                                ) {
-                                    navController.navigate(Screens.MainScreen.rout)
-                                }
-                            } else {
-                                viewModel.addNote(
-                                    Note(
-                                        title = title,
-                                        content = description,
-                                        backgroundColor = color,
-                                        isFavourite = isFavourite
-                                    ),
                                 ) {
                                     navController.navigate(Screens.MainScreen.rout)
                                 }
                             }
 
                         }
-
-
                 ) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
@@ -125,6 +107,7 @@ fun EditScreen(
                             .width(30.dp)
                     )
                 }
+                Spacer(Modifier.weight(1f, true))
                 Box(
                     modifier = Modifier
                         .width(48.dp)
@@ -133,15 +116,29 @@ fun EditScreen(
                         .clickable {
                             val color: Int = noteItem.toArgb()
                             if (id != null) {
+                                if (note != null) {
+                                    viewModel.addNote(
+                                        Note(
+                                            noteID = id.toLong(),
+                                            title = title,
+                                            content = description,
+                                            backgroundColor = color,
+                                            isFavourite = note.isFavourite
+                                        )
+                                    ) {
+                                        navController.navigate(Screens.MainScreen.rout)
+                                    }
+                                }
+                            } else {
                                 viewModel.addNote(
                                     Note(
-                                        id = id.toLong(),
                                         title = title,
                                         content = description,
                                         backgroundColor = color,
-                                        isFavourite = isFavourite
-                                    )
+                                        isFavourite = false
+                                    ),
                                 ) {
+                                    navController.navigate(Screens.MainScreen.rout)
                                 }
                             }
                             focusManager.clearFocus(false)
@@ -157,15 +154,14 @@ fun EditScreen(
                             .width(33.dp)
                     )
                 }
-
-
-
+                if (note != null) {
                     Box(
                         modifier = Modifier
                             .width(48.dp)
                             .height(48.dp)
                             .clip(RoundedCornerShape(15.dp))
                             .clickable {
+                                showDialog.value = true
                             }
                     ) {
                         Icon(
@@ -177,17 +173,25 @@ fun EditScreen(
                                 .width(33.dp)
 
                         )
-
                     }
                 }
+            }
         }
-
-
-
-
-
-
     ) { paddingValues ->
+        if (note != null) {
+            EditDialog(
+                showDialog = showDialog.value,
+                onDismiss = { showDialog.value = false },
+                isFavourite = note.isFavourite,
+                removeRequested = {
+                    viewModel.deleteNote(note = note)
+                    navController.navigate(Screens.MainScreen.rout)
+                },
+                favouriteStateChanged = {
+                    viewModel.changeFavouriteState(note = note)
+                }
+            )
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -263,9 +267,6 @@ fun EditScreen(
         }
     }
 }
-
-
-
 
 
 

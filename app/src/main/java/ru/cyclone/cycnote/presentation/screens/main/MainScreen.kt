@@ -55,19 +55,17 @@ fun MainScreen(navController: NavHostController) {
             )
             notes.forEach { note ->
                 val showDialog = remember { mutableStateOf(false) }
-                if (showDialog.value) {
-                    Alert(
-                        showDialog = showDialog.value,
-                        onDismiss = { showDialog.value = false },
-                        isFavourite = note.isFavourite,
-                        removeRequested = {
-                            viewModel.deleteNote(
-                                note = note
-                            )
-                        },
-                        favouriteStateChanged = { viewModel.changeFavouriteState(note = note) }
-                    )
-                }
+                Alert(
+                    showDialog = showDialog.value,
+                    onDismiss = { showDialog.value = false },
+                    isFavourite = note.isFavourite,
+                    removeRequested = {
+                        viewModel.deleteNote(
+                            note = note
+                        )
+                    },
+                    favouriteStateChanged = { viewModel.changeFavouriteState(note = note) }
+                )
                 NoteItem(
                     title = note.title,
                     subtitle = note.content,
@@ -78,10 +76,10 @@ fun MainScreen(navController: NavHostController) {
                         .padding(vertical = 6.dp)
                         .padding(horizontal = 16.dp)
                         .clickable {
-                            navController.navigate(Screens.AddScreen.rout + "/${note.id}")
+                            navController.navigate(Screens.AddScreen.rout + "/${note.noteID}")
                         }
                         .combinedClickable(
-                            onClick = { navController.navigate(Screens.AddScreen.rout + "/${note.id}") },
+                            onClick = { navController.navigate(Screens.AddScreen.rout + "/${note.noteID}") },
                             onLongClick = {
                                 showDialog.value = true
                             }

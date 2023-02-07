@@ -9,12 +9,12 @@ interface NoteRepositoryImpl {
     suspend fun insertNote(note: Note)
 
     @Query("SELECT * FROM note " +
-            "ORDER BY isFavourite DESC")
+            "ORDER BY isFavourite DESC, noteID DESC")
     suspend fun getAllNotes(): List<Note>
 
     @Delete
     suspend fun deleteNote(note: Note)
 
-    @Query("SELECT * FROM note WHERE id=:noteId")
+    @Query("SELECT * FROM note WHERE noteID=:noteId")
     suspend fun getNoteById(noteId: Long): Note
 }

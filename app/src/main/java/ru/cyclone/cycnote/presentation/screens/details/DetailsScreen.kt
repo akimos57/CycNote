@@ -40,7 +40,7 @@ fun DetailsScreen(navController: NavController, id: String?) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate(
-                    Screens.AddScreen.rout + "/${note?.id}"
+                    Screens.AddScreen.rout + "/${note?.noteID}"
                 )},
                 modifier = Modifier
             ) {
