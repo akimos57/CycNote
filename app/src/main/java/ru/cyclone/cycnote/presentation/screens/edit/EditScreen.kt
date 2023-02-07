@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -36,8 +37,6 @@ import androidx.navigation.NavController
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import ru.cyclone.cycnote.domain.model.Note
 import ru.cyclone.cycnote.presentation.navigation.Screens
-import ru.cyclone.cycnote.presentation.screens.main.Alert
-import ru.cyclone.cycnote.presentation.screens.main.MainViewModel
 import ru.cyclone.cycnote.presentation.ui.theme.noteItem
 
 
@@ -50,9 +49,6 @@ fun EditScreen(
     val viewModel = hiltViewModel<EditViewModel>()
     var title by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
-    val viewModel2 = hiltViewModel<MainViewModel>()
-
-    val notes = viewModel2.notes.observeAsState(listOf()).value
 
     val note = viewModel.note.observeAsState().value
     id?.toLong()?.let { viewModel.getNoteById(id = it) }
@@ -106,6 +102,31 @@ fun EditScreen(
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
                         .clickable {
+                            val color: Int = noteItem.toArgb()
+                            if (id != null) {
+                                viewModel.addNote(
+                                    Note(
+                                        id = id.toLong(),
+                                        title = title,
+                                        content = description,
+                                        backgroundColor = color,
+                                        isFavourite = isFavourite
+                                    )
+                                ) {
+                                    navController.navigate(Screens.MainScreen.rout)
+                                }
+                            } else {
+                                viewModel.addNote(
+                                    Note(
+                                        title = title,
+                                        content = description,
+                                        backgroundColor = color,
+                                        isFavourite = isFavourite
+                                    ),
+                                ) {
+                                    navController.navigate(Screens.MainScreen.rout)
+                                }
+                            }
                             focusManager.clearFocus(false)
                         }
 

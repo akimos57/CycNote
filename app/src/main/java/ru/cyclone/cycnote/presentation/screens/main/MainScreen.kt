@@ -2,14 +2,12 @@ package ru.cyclone.cycnote.presentation.screens.main
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -94,6 +92,7 @@ fun MainScreen(navController: NavHostController) {
     }
 }
 
+@Composable
 fun staticScrollState(vm : MainViewModel): ScrollState {
     val state = rememberScrollState()
     LaunchedEffect(Unit) {
