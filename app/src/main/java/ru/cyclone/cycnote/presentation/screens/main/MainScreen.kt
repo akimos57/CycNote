@@ -1,16 +1,15 @@
 package ru.cyclone.cycnote.presentation.screens.main
 
 import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,21 +38,22 @@ fun MainScreen(navController: NavHostController) {
             ) {
                 Icon(
                     imageVector = Icons.Filled.Edit,
-                    contentDescription = "add")
+                    contentDescription = "add"
+                )
             }
         }
-    ) { paddingValues ->
+    ) { paddingParams ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingParams)
                 .verticalScroll(verticalCustomScrollState)
         ) {
             Text(
                 text = "Заметки",
                 fontSize = 42.sp,
                 modifier = Modifier
-                    .padding(top = 30.dp, start =24.dp, bottom = 12.dp)
+                    .padding(top = 30.dp, start = 24.dp, bottom = 12.dp)
             )
             notes.forEach { note ->
                 val showDialog = remember { mutableStateOf(false) }
@@ -77,8 +77,8 @@ fun MainScreen(navController: NavHostController) {
                     isFavourite = note.isFavourite,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 12.dp)
-                        .padding(horizontal = 24.dp)
+                        .padding(vertical = 6.dp)
+                        .padding(horizontal = 16.dp)
                         .clickable {
                             navController.navigate(Screens.AddScreen.rout + "/${note.id}")
                         }
@@ -94,7 +94,6 @@ fun MainScreen(navController: NavHostController) {
     }
 }
 
-@Composable
 fun staticScrollState(vm : MainViewModel): ScrollState {
     val state = rememberScrollState()
     LaunchedEffect(Unit) {
