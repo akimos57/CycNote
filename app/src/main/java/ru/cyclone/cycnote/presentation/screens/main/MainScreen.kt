@@ -16,7 +16,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.coroutineScope
 import ru.cyclone.cycnote.presentation.navigation.Screens
-import ru.cyclone.cycnote.presentation.ui.components.Alert
 import ru.cyclone.cycnote.presentation.ui.components.EditDialog
 import ru.cyclone.cycnote.presentation.ui.components.NoteItem
 import ru.cyclone.cycnote.presentation.ui.theme.CycNoteTheme
@@ -32,7 +31,7 @@ fun MainScreen(navController: NavHostController) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate(Screens.AddScreen.rout) },
+                onClick = { navController.navigate(Screens.EditScreen.rout) },
                 modifier = Modifier
             ) {
                 Icon(
@@ -78,10 +77,10 @@ fun MainScreen(navController: NavHostController) {
                         .padding(vertical = 6.dp)
                         .padding(horizontal = 16.dp)
                         .clickable {
-                            navController.navigate(Screens.AddScreen.rout + "/${note.noteID}")
+                            navController.navigate(Screens.EditScreen.rout + "/${note.noteID}")
                         }
                         .combinedClickable(
-                            onClick = { navController.navigate(Screens.AddScreen.rout + "/${note.noteID}") },
+                            onClick = { navController.navigate(Screens.EditScreen.rout + "/${note.noteID}") },
                             onLongClick = {
                                 showDialog.value = true
                             }

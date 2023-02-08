@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun EditDialog(showDialog: Boolean,
@@ -50,8 +49,7 @@ fun EditDialog(showDialog: Boolean,
                 ) {
                     Text(
                         "Удалить заметку",
-                        color = MaterialTheme.colors.surface,
-                        fontSize = 20.sp,
+                        style = MaterialTheme.typography.h6,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 20.dp, top = 20.dp)
@@ -64,15 +62,13 @@ fun EditDialog(showDialog: Boolean,
                     }) {
                     when (isFavourite) {
                         true -> Text("Убрать из избранного",
-                            color = MaterialTheme.colors.surface,
-                            fontSize = 20.sp,
+                            style = MaterialTheme.typography.h6,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(start = 20.dp, top = 20.dp)
                         )
                         else -> Text("Добавить в избранное",
-                            color = MaterialTheme.colors.surface,
-                            fontSize = 20.sp,
+                            style = MaterialTheme.typography.h6,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(start = 20.dp, top = 20.dp)

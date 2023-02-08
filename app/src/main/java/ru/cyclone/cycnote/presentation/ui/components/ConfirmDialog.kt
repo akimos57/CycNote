@@ -1,7 +1,5 @@
 package ru.cyclone.cycnote.presentation.ui.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,10 +10,8 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun ConfirmDialog(
@@ -27,16 +23,11 @@ fun ConfirmDialog(
         AlertDialog(
             modifier = Modifier
                 .width(300.dp)
-                .clip(RoundedCornerShape(14.dp))
-
-
-
-            ,
+                .clip(RoundedCornerShape(14.dp)),
             title = {
                 Text(
                     text = "Удалить заметку?",
-                    color = MaterialTheme.colors.surface,
-                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.h6,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier
                         .padding(start = 20.dp, top = 20.dp)
@@ -53,8 +44,7 @@ fun ConfirmDialog(
                 ) {
                     Text(
                         text = "Да",
-                        color = MaterialTheme.colors.surface,
-                        fontSize = 20.sp,
+                        style = MaterialTheme.typography.h6,
                         modifier = Modifier
                             .padding(start = 20.dp, top = 20.dp)
                     )
@@ -67,8 +57,7 @@ fun ConfirmDialog(
                 ) {
                     Text(
                         text = "Нет",
-                        color = MaterialTheme.colors.surface,
-                        fontSize = 20.sp,
+                        style = MaterialTheme.typography.h6,
                         modifier = Modifier
                             .padding(start = 20.dp, top = 20.dp)
                     )

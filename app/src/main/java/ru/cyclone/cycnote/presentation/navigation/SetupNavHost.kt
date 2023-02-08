@@ -11,7 +11,7 @@ import ru.cyclone.cycnote.presentation.screens.main.MainScreen
 
 sealed class Screens(val rout: String) {
     object MainScreen: Screens(rout = "main_screen")
-    object AddScreen: Screens(rout = "add_screen")
+    object EditScreen: Screens(rout = "add_screen")
 }
 
 @Composable
@@ -23,10 +23,10 @@ fun SetupNavHost(navController: NavHostController) {
         composable(route = Screens.MainScreen.rout) {
             MainScreen(navController = navController)
         }
-        composable(route = Screens.AddScreen.rout + "/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) {
+        composable(route = Screens.EditScreen.rout + "/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) {
             EditScreen(navController = navController, it.arguments?.getString("id"))
         }
-        composable(route = Screens.AddScreen.rout) {
+        composable(route = Screens.EditScreen.rout) {
             EditScreen(navController = navController, it.arguments?.getString("id"))
         }
     }
