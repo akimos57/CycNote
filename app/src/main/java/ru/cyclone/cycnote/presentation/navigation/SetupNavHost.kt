@@ -11,7 +11,6 @@ import ru.cyclone.cycnote.presentation.screens.main.MainScreen
 
 sealed class Screens(val rout: String) {
     object MainScreen: Screens(rout = "main_screen")
-    object DetailsScreen: Screens(rout = "details_screen")
     object AddScreen: Screens(rout = "add_screen")
 }
 
