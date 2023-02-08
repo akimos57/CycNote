@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.coroutineScope
 import ru.cyclone.cycnote.presentation.navigation.Screens
 import ru.cyclone.cycnote.presentation.ui.components.Alert
+import ru.cyclone.cycnote.presentation.ui.components.EditDialog
 import ru.cyclone.cycnote.presentation.ui.components.NoteItem
 import ru.cyclone.cycnote.presentation.ui.theme.CycNoteTheme
 
@@ -55,16 +56,17 @@ fun MainScreen(navController: NavHostController) {
             )
             notes.forEach { note ->
                 val showDialog = remember { mutableStateOf(false) }
-                Alert(
+                EditDialog(
                     showDialog = showDialog.value,
                     onDismiss = { showDialog.value = false },
                     isFavourite = note.isFavourite,
                     removeRequested = {
-                        viewModel.deleteNote(
-                            note = note
-                        )
+                        viewModel.deleteNote(note = note)
+                        navController.navigate(Screens.MainScreen.rout)
                     },
-                    favouriteStateChanged = { viewModel.changeFavouriteState(note = note) }
+                    favouriteStateChanged = {
+                        viewModel.changeFavouriteState(note = note)
+                    }
                 )
                 NoteItem(
                     title = note.title,

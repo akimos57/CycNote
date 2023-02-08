@@ -42,6 +42,8 @@ import androidx.compose.ui.unit.sp
                         .padding(vertical = 10.dp)
                 ) {
                     Text(
+                        modifier = Modifier
+                            .width(300.dp),
                         text = title,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
@@ -58,6 +60,7 @@ import androidx.compose.ui.unit.sp
                     modifier = Modifier
                         .padding(top = 50.dp)
                         .height(50.dp)
+                        .width(340.dp)
                         .padding(horizontal = 16.dp)
                 ) {
                     Text(

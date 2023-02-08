@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.autoSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -81,20 +82,48 @@ fun EditScreen(
                         .height(48.dp)
                         .clip(RoundedCornerShape(15.dp))
                         .clickable {
+//                            val color: Int = noteItem.toArgb()
+//                            if (note != null) {
+//                                viewModel.addNote(
+//                                    Note(
+//                                        noteID = note.noteID,
+//                                        title = title,
+//                                        content = description,
+//                                        backgroundColor = color,
+//                                        isFavourite = note.isFavourite
+//                                    )
+//                                ) {
+//                                    navController.navigate(Screens.MainScreen.rout)
+//                                }
+//                            }
                             val color: Int = noteItem.toArgb()
-                            if (note != null) {
+                            if (id != null) {
+                                if (note != null) {
+                                    viewModel.addNote(
+                                        Note(
+                                            noteID = id.toLong(),
+                                            title = title,
+                                            content = description,
+                                            backgroundColor = color,
+                                            isFavourite = note.isFavourite
+                                        )
+                                    ) {
+                                        navController.navigate(Screens.MainScreen.rout)
+                                    }
+                                }
+                            } else {
                                 viewModel.addNote(
                                     Note(
-                                        noteID = note.noteID,
                                         title = title,
                                         content = description,
                                         backgroundColor = color,
-                                        isFavourite = note.isFavourite
-                                    )
+                                        isFavourite = false
+                                    ),
                                 ) {
                                     navController.navigate(Screens.MainScreen.rout)
                                 }
                             }
+                            focusManager.clearFocus(false)
 
                         }
                 ) {
@@ -139,6 +168,7 @@ fun EditScreen(
                                     ),
                                 ) {
                                     navController.navigate(Screens.MainScreen.rout)
+                                    focusManager.clearFocus(false)
                                 }
                             }
                             focusManager.clearFocus(false)
