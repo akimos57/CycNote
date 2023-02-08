@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import ru.cyclone.cycnote.presentation.screens.edit.EditScreen
-import ru.cyclone.cycnote.presentation.screens.details.DetailsScreen
 import ru.cyclone.cycnote.presentation.screens.main.MainScreen
 
 sealed class Screens(val rout: String) {
@@ -24,9 +23,6 @@ fun SetupNavHost(navController: NavHostController) {
     ) {
         composable(route = Screens.MainScreen.rout) {
             MainScreen(navController = navController)
-        }
-        composable(route = Screens.DetailsScreen.rout + "/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) {
-            DetailsScreen(navController = navController, it.arguments?.getString("id"))
         }
         composable(route = Screens.AddScreen.rout + "/{id}", arguments = listOf(navArgument("id") { type = NavType.StringType })) {
             EditScreen(navController = navController, it.arguments?.getString("id"))
